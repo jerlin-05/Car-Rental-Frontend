@@ -1,0 +1,1 @@
+Frontend project placeholder. You will paste code files into this folder.

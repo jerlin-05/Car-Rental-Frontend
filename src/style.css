@@ -1,0 +1,153 @@
+:root{
+  --bg:#0d0d0d;
+  --text:#f4f4f4;
+  --muted:#9ca3af;
+  --line:#1f1f1f;
+  --brand:#d4af37;  /* gold tone */
+  --surface:#131313;
+}
+
+*{ box-sizing:border-box; }
+html,body,#root{ height:100%; }
+
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font-size:14px;
+}
+
+a{ color:inherit; text-decoration:none; }
+button,input,select{ font-family:inherit; }
+
+/* NAVBAR */
+.nav{
+  position:sticky;
+  top:0;
+  background:var(--surface);
+  border-bottom:1px solid var(--line);
+  box-shadow:0 1px 4px rgba(0,0,0,.6);
+}
+.nav__inner{
+  max-width:1080px;
+  margin:0 auto;
+  padding:14px 18px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+.nav__brand{
+  font-size:20px;
+  font-weight:700;
+  color:var(--brand);
+}
+.nav__links,.nav__auth{
+  display:flex;
+  align-items:center;
+  gap:16px;
+}
+.nav__link{
+  padding:6px 10px;
+  border-radius:6px;
+  color:var(--muted);
+  transition:0.12s;
+}
+.nav__link:hover{
+  background:var(--brand);
+  color:#000;
+}
+.nav__link--active{
+  background:var(--brand);
+  color:#000;
+}
+
+/* LAYOUT */
+.container{
+  max-width:1080px;
+  margin:0 auto;
+  padding:26px 16px;
+}
+.card{
+  background:var(--surface);
+  border:1px solid var(--line);
+  border-radius:14px;
+  padding:20px;
+  box-shadow:0 2px 6px rgba(0,0,0,.6);
+}
+
+/* FORMS */
+.input,.select{
+  width:100%;
+  padding:12px 14px;
+  border-radius:8px;
+  border:1px solid var(--line);
+  background:#000;
+  margin-bottom:10px;
+  color:var(--text);
+}
+.input::placeholder{
+  color:#666;
+}
+
+/* BUTTONS */
+.btn{
+  padding:9px 14px;
+  border-radius:8px;
+  cursor:pointer;
+  border:1px solid var(--line);
+  background:#000;
+  color:var(--brand);
+}
+.btn--primary{
+  background:var(--brand);
+  color:#000;
+  border-color:transparent;
+}
+
+/* VEHICLE GRID */
+.grid{
+  display:grid;
+  gap:18px;
+  grid-template-columns:repeat(auto-fill,minmax(240px,1fr));
+}
+.veh-card h3{
+  margin:0;
+  font-size:18px;
+}
+.tags{
+  margin:12px 0;
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+}
+.tag{
+  font-size:12px;
+  padding:4px 10px;
+  background:#000;
+  color:var(--brand);
+  border:1px solid var(--brand);
+  border-radius:999px;
+}
+/* ==== FIX <pre> background in dark mode ==== */
+pre{
+  background:#0b0b0b;
+  color:#e5e7eb;
+  padding:14px;
+  border-radius:10px;
+  border:1px solid var(--line);
+  overflow:auto;
+}
+
+/* ==== PROFILE key-value rows ==== */
+.kv{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  background:#0a0a0a;
+  border:1px solid var(--line);
+  border-radius:10px;
+  padding:12px 14px;
+}
+.kv__label{ color:var(--muted); }
+.kv__value{ font-weight:600; }
