@@ -6,7 +6,7 @@ export default function Signup(){
   const [name,setName] = useState("");
   const [email,setEmail] = useState("");
   const [password,setPassword] = useState("");
-  const [role,setRole] = useState("user"); // user or seller
+  const [role,setRole] = useState("user"); 
   const [msg,setMsg] = useState("");
   const { signup, loading } = useAuth();
   const nav = useNavigate();

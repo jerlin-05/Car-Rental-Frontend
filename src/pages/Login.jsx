@@ -3,7 +3,7 @@ import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 
 export default function Login() {
-  // ✅ start empty (no default admin creds)
+  
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [msg, setMsg] = useState("");
@@ -23,7 +23,7 @@ export default function Login() {
     <div className="container">
       <div className="card" style={{ maxWidth: 520, margin: "40px auto" }}>
         <h2>Login</h2>
-        {/* prevent browser from autofilling old demo values */}
+        
         <form onSubmit={submit} autoComplete="off">
           <input
             className="input"

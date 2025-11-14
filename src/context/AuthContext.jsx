@@ -1,65 +1,61 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
-import api, { setAuthToken } from "../services/api";
+import api from "../services/api";
+import { useNavigate } from "react-router-dom";
 
-const Ctx = createContext();
-export const useAuth = () => useContext(Ctx);
+const AuthContext = createContext();
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    const t = localStorage.getItem("token");
-    if (t) { setAuthToken(t); me(); }
+    (async () => {
+      try {
+        const res = await api.get("/api/auth/profile");
+        setUser(res.data.user || res.data);
+      } catch (err) {
+        setUser(null);
+      } finally {
+        setLoading(false);
+      }
+    })();
   }, []);
 
-  const me = async () => {
-    try {
-      const r = await api.get("/api/auth/profile");
-      setUser(r.data.user);
-    } catch {
-      setUser(null);
-    }
-  };
-
   const login = async (email, password) => {
-    setLoading(true);
     try {
-      const r = await api.post("/api/auth/login", { email, password });
-      const t = r.data.token;
-      localStorage.setItem("token", t);
-      setAuthToken(t);
-      await me();
-      return { ok: true };
-    } catch (e) {
-      return { ok: false, message: e.response?.data?.message || "Login failed" };
-    } finally {
-      setLoading(false);
+      const res = await api.post("/api/auth/login", { email, password });
+      // re-fetch profile to populate user
+      const pr = await api.get("/api/auth/profile");
+      setUser(pr.data.user || pr.data);
+      return { ok: true, ...(res.data || {}) };
+    } catch (err) {
+      const msg = err?.response?.data?.message || err.message || "Login failed";
+      return { ok: false, message: msg };
     }
   };
 
-  const signup = async (name, email, password, role="user") => {
-    setLoading(true);
+  const signup = async (name, email, password, role = "user") => {
     try {
-      await api.post("/api/auth/signup", { name, email, password, role });
-      return { ok: true };
-    } catch (e) {
-      return { ok: false, message: e.response?.data?.message || "Signup failed" };
-    } finally {
-      setLoading(false);
+      const res = await api.post("/api/auth/signup", { name, email, password, role });
+      return { ok: true, ...(res.data || {}) };
+    } catch (err) {
+      const msg = err?.response?.data?.message || err.message || "Signup failed";
+      return { ok: false, message: msg };
     }
   };
 
   const logout = async () => {
-    try { await api.post("/api/auth/logout"); } catch {}
-    localStorage.removeItem("token");
-    setAuthToken(null);
+    try { await api.post("/api/auth/logout"); } catch (e) {}
     setUser(null);
+    navigate("/");
   };
 
   return (
-    <Ctx.Provider value={{ user, loading, login, signup, logout }}>
+    <AuthContext.Provider value={{ user, setUser, loading, login, signup, logout }}>
       {children}
-    </Ctx.Provider>
+    </AuthContext.Provider>
   );
 }
+
+export const useAuth = () => useContext(AuthContext);

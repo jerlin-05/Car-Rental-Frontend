@@ -9,56 +9,32 @@ import Vehicles from "./pages/Vehicles.jsx";
 import Profile from "./pages/Profile.jsx";
 import Checkout from "./pages/Checkout.jsx";
 import ProtectedRoute from "./routes/ProtectedRoute.jsx";
+import AddVehicle from "./pages/AddVehicle.jsx";
 
 /* ---------- Navbar ---------- */
-function Navbar() {
-  const { user, logout } = useAuth();
+<nav className="nav__links">
+  <NavLink to="/" className={linkClass} end>
+    Home
+  </NavLink>
 
-  const linkClass = ({ isActive }) =>
-    "nav__link" + (isActive ? " nav__link--active" : "");
+  <NavLink to="/vehicles" className={linkClass}>
+    Vehicles
+  </NavLink>
 
-  return (
-    <header className="nav">
-      <div className="nav__inner container">
-        <NavLink to="/" className="nav__brand">
-          CarRental
-        </NavLink>
+  {/* seller */}
+  {user?.role === "seller" && (
+    <NavLink to="/seller/add-vehicle" className={linkClass}>
+      Add Vehicle
+    </NavLink>
+  )}
 
-        <nav className="nav__links">
-          <NavLink to="/" className={linkClass} end>
-            Home
-          </NavLink>
-          <NavLink to="/vehicles" className={linkClass}>
-            Vehicles
-          </NavLink>
-        </nav>
-
-        <div className="nav__auth">
-          {!user ? (
-            <>
-              <NavLink to="/login" className={linkClass}>
-                Login
-              </NavLink>
-              <NavLink to="/signup" className={linkClass}>
-                Signup
-              </NavLink>
-            </>
-          ) : (
-            <>
-              <NavLink to="/profile" className={linkClass}>
-                {user.name || "Profile"}
-              </NavLink>
-              <button type="button" className="btn btn--primary" onClick={logout}>
-                Logout
-              </button>
-            </>
-          )}
-        </div>
-      </div>
-    </header>
-  );
-}
-
+  {/* admin */}
+  {user?.role === "admin" && (
+    <NavLink to="/admin" className={linkClass}>
+      Admin Panel
+    </NavLink>
+  )}
+</nav>
 /* ---------- App Shell ---------- */
 export default function App() {
   return (
@@ -92,10 +68,10 @@ export default function App() {
             }
           />
 
-          {/* optional: catch-all 404 */}
-          {/* <Route path="*" element={<NotFound />} /> */}
+          {}
         </Routes>
       </AuthProvider>
     </BrowserRouter>
   );
+  
 }

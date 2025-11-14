@@ -12,7 +12,7 @@ const inr = (n) =>
 export default function Checkout() {
   const { search } = useLocation();
   const nav = useNavigate();
-  const { user } = useAuth();
+  const user  = useAuth();
   const vehicleId = new URLSearchParams(search).get("id");
 
   const [vehicle, setVehicle] = useState(null);
@@ -56,7 +56,7 @@ export default function Checkout() {
         endDate,
       });
       if (r.data?.url) {
-        window.location.href = r.data.url; // Redirect to Stripe Checkout
+        window.location.href = r.data.url; 
       }
     } catch (e) {
       console.error(e);

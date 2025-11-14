@@ -4,37 +4,26 @@ import { useAuth } from "../context/AuthContext";
 export default function Profile() {
   const { user } = useAuth();
 
+  if (!user) return <div className="container">Loading...</div>;
+
   return (
     <div className="container">
-      <div className="card" style={{ maxWidth: 720, margin: "0 auto" }}>
-        <h2 style={{ marginTop: 0 }}>Profile</h2>
+      <div className="card" style={{ maxWidth: 700, margin: "24px auto" }}>
+        <h2>Profile</h2>
 
-        {!user ? (
-          <p style={{ color: "#9ca3af" }}>No user info loaded.</p>
-        ) : (
-          <div style={{ display: "grid", gap: 12, marginTop: 10 }}>
-            <div className="kv">
-              <span className="kv__label">Name</span>
-              <span className="kv__value">{user.name}</span>
-            </div>
-            <div className="kv">
-              <span className="kv__label">Email</span>
-              <span className="kv__value">{user.email}</span>
-            </div>
-            <div className="kv">
-              <span className="kv__label">Role</span>
-              <span className="kv__value" style={{ color: "var(--brand)" }}>
-                {user.role}
-              </span>
-            </div>
-            <div className="kv">
-              <span className="kv__label">User ID</span>
-              <span className="kv__value" style={{ fontFamily: "monospace" }}>
-                {user.id || user._id}
-              </span>
-            </div>
-          </div>
-        )}
+        <label>Name</label>
+        <input className="input" value={user.name} readOnly />
+
+        <label>Email</label>
+        <input className="input" value={user.email} readOnly />
+
+        <label>Role</label>
+        <input className="input" value={user.role} readOnly />
+
+        <label>User ID</label>
+        <input className="input" value={user.id || user._id} readOnly />
+
+    
       </div>
     </div>
   );
